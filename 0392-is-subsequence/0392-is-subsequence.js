@@ -36,6 +36,7 @@ var isSubsequence = function(s, t) {
     let temp = t
     
     for (let i = 0; i < s.length; i++) {
+        if(temp.length <= 0) return false
         const idx = temp.indexOf(s[i])
         if(idx < 0) return false
         temp = temp.slice(idx + 1)
