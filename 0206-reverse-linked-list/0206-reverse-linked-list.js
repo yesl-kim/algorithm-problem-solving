@@ -14,10 +14,9 @@ const reverseList = (head) => {
   
   let cur = head
   let prev = null
-  let temp = null
   
   while(cur) {
-    temp = cur.next
+    const temp = cur.next
     cur.next = prev
     prev = cur
     cur = temp
