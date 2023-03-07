@@ -13,7 +13,7 @@
 var detectCycle = function(head) {
     let node = head
   
-  if(!node) {
+  if(!node || !node.next) {
     return null
   }
   
