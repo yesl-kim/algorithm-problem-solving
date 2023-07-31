@@ -16,17 +16,28 @@ class Solution:
             'M':1000
         }
         
-        res=0
-        i=0
         
-        while i<len(s)-1:
-            if numbers[s[i]]<numbers[s[i+1]]:
-                res+=numbers[s[i:i+2]]
-                i+=2
+        res=0
+        key=s
+        while key:
+            if numbers.get(key):
+                res+=numbers[key]
+                s=s[len(key):]
+                key=s
             else:
-                res+=numbers[s[i]]
-                i+=1
-        if i<len(s):
-            res+=numbers[s[-1]]
+                key=key[:-1]
+         
+        # n=len(s)
+        # res=0
+        # start=0
+        # end=n
+        # while start<n:
+        #     key=s[start:end]
+        #     if numbers.get(key):
+        #         res+=numbers[key]
+        #         start+=len(key)
+        #         end=n
+        #     else:
+        #         end-=1
             
         return res
