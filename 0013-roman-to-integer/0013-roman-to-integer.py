@@ -18,8 +18,9 @@ class Solution:
         
         res=0
         i=0
+        
         while i<len(s)-1:
-            if numbers.get(s[i:i+2]):
+            if numbers[s[i]]<numbers[s[i+1]]:
                 res+=numbers[s[i:i+2]]
                 i+=2
             else:
