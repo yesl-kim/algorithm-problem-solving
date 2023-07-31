@@ -10,12 +10,16 @@ class Solution:
             'M':1000
         }
         
-        res,i,n=0,0,len(s)
-        while i<n:
-            if i==n-1 or numbers[s[i]]>=numbers[s[i+1]]:
+        res=0
+        i=0
+        n=len(s)
+        while i<n-1:
+            if numbers[s[i]]>=numbers[s[i+1]]:
                 res+=numbers[s[i]]
                 i+=1
             else:
                 res+=(numbers[s[i+1]]-numbers[s[i]])
                 i+=2
+        if i<n:
+            res+=numbers[s[i]]
         return res
