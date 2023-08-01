@@ -16,28 +16,18 @@ class Solution:
             'M':1000
         }
         
-        
         res=0
-        key=s
-        while key:
-            if numbers.get(key):
-                res+=numbers[key]
-                s=s[len(key):]
-                key=s
+        keys=list(numbers.keys())
+        i=len(keys)-1
+        while s:
+            k=keys[i]
+            if s.startswith(k):
+                res+=numbers[k]
+                s=s[len(k):]
             else:
-                key=key[:-1]
-         
-        # n=len(s)
-        # res=0
-        # start=0
-        # end=n
-        # while start<n:
-        #     key=s[start:end]
-        #     if numbers.get(key):
-        #         res+=numbers[key]
-        #         start+=len(key)
-        #         end=n
-        #     else:
-        #         end-=1
-            
+                i-=1
+        # 근데 이렇게 하면 o(nm)의 시간복잡도?
+        # n=s의 길이, m=numbers의 길이
+        # III일 때 오히려 시간이 오래걸릴 것 같은데
+        
         return res
