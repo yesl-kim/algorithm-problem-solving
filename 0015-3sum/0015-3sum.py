@@ -20,19 +20,3 @@ def threeSum(nums):
 
              hash.clear()
          return res
-
-# print(threeSum([-1,0,1,2,-1,-4]))
-
-
-
-from itertools import combinations
-
-
-def threesums(xs):
-    return [(xs[i], xs[j], xs[k])
-            for (i, j, k) in combinations(range(len(xs)), 3)
-            if xs[i] + xs[j] + xs[k] == 0]
-
-
-print(threesums([-1,0,1,2,-1,-4]))
-
