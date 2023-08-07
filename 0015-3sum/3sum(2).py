@@ -13,23 +13,29 @@ def threesum(xs):
     for i, v in enumerate(xs):
         indices[v].append(i)
 
-    def hasAfter(i, j, z):
-        after = max(i, j)
-        left, right = 0, len(indices[z]) - 1
+    def findAfter(after, value):
+        left, right = 0, len(indices[value]) - 1
 
-        if not indices[z] or indices[z][right] < after:
-            return False
+        if not indices[value] or indices[value][right] < after:
+            raise
 
         while left <= right:
             cur = (left + right) // 2
-            if indices[z][cur] <= after:
+            if indices[value][cur] <= after:
                 left = cur + 1
             else:
                 right = cur - 1
                 index = cur
         
-        del indices[z][index]
-        return True
+        return index
+
+    def hasAfter(i, j, z):
+        try:
+            index = findAfter(max(i, j), z)
+            del indices[z][index]
+            return True
+        except:
+            return False
     
     res = []
     for (i, j) in combinations(range(len(xs)), 2):
@@ -50,12 +56,10 @@ def threesums(xs):
             for (i, j, k) in combinations(range(len(xs)), 3)
             if xs[i] + xs[j] + xs[k] == 0]
 
+# output = threesum([-1,0,1,2,-1,-4,-2,-3,3,0,4])
+# expected = [[-4,0,4],[-4,1,3],[-3,-1,4],[-3,0,3],[-3,1,2],[-2,-1,3],[-2,0,2],[-1,-1,2],[-1,0,1]]
+output = threesum([-1,0,1,0])
+expected = [[-1,0,1]]
 
-# print(threesum([1, 2, -3, -4, -1, 0]))
-# print(threesums([1, 2, -3, -4, -1, 0]))
-# print(threesums([2,-2,0,-4,2,8,-10]))
-# print(threesum([2,-2,0,-4,2,8,-10]))
-print(threesum([-1,0,1,2,-1,-4]))
-print(threesums([-1,0,1,2,-1,-4]))
-
-# set -> -1, 0, 1, 2, -4
+print(f"output: {len(output)} => {output}")
+print(f"expected: {len(expected)} => {expected}")
