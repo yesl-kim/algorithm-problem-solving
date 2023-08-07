@@ -3,11 +3,10 @@ from functools import reduce
 
 class Solution:
     def isHappy(self, n: int) -> bool:
-        memo = defaultdict(int)
+        memo = set()
         
-        while n != 1 and not memo[n]:
-            square = reduce(lambda acc, cur: acc + int(cur)**2, str(n), 0)
-            memo[n] = square
-            n = square
+        while n != 1 and n not in memo:
+            memo.add(n)
+            n = reduce(lambda acc, cur: acc + int(cur)**2, str(n), 0)
         
         return n == 1
