@@ -9,38 +9,39 @@ from collections import defaultdict
 # 2) 조건에 맞는 조합 구하기
 
 def threesum(xs):
-
-    sums=defaultdict(list)
+    indices=defaultdict(list)
     for i, v in enumerate(xs):
-        sums[v].append(i)
+        indices[v].append(i)
 
-    def has(i, j, z):
-        for k in sums[z]: # (1)
-            if k != i and k != j:
-                sums[z].remove(k) # (2)
-                return True
-        return False
-    
-    res = set()
-    for (i, j) in combinations(range(len(xs)), 2):
-        x, y, z = xs[i], xs[j], -(xs[i] + xs[j])
-        if has(i, j, z):
-            res.add(tuple(set([x,y,z]))) # (3)
-    
-    return list(res)
+    def hasAfter(i, j, z):
+        after = max(i, j)
+        left, right = 0, len(indices[z]) - 1
 
-def threesum(xs):
+        if not indices[z] or indices[z][right] < after:
+            return False
+
+        while left <= right:
+            cur = (left + right) // 2
+            if indices[z][cur] <= after:
+                left = cur + 1
+            else:
+                right = cur - 1
+                index = cur
+        
+        del indices[z][index]
+        return True
+    
     res = []
-
-    def findAfter(i, j, z):
-        return z in set(xs[max(i, j) + 1: ])
-    
     for (i, j) in combinations(range(len(xs)), 2):
         x, y, z = xs[i], xs[j], -(xs[i] + xs[j])
-        if findAfter(i, j, z):
+        if hasAfter(i, j, z):
             res.append((x, y, z))
     
     return res
+
+
+# hasAfter 에서 사용한 요소를 제거하면, res에 추가할 때 중복을 신경쓸 필요가 없고 => hasAfter 순수함수가 아님
+# hasAfter 에서 사용한 요소를 제거하지 않으면, res에 추가할 때 중복 처리를 해줘야함 => hasAfter 순수함수
 
 
 # 첫 출발 (참고 코드)
@@ -50,7 +51,11 @@ def threesums(xs):
             if xs[i] + xs[j] + xs[k] == 0]
 
 
-print(threesum([1, 2, -3, -4, -1, 0]))
-print(threesums([1, 2, -3, -4, -1, 0]))
+# print(threesum([1, 2, -3, -4, -1, 0]))
+# print(threesums([1, 2, -3, -4, -1, 0]))
+# print(threesums([2,-2,0,-4,2,8,-10]))
+# print(threesum([2,-2,0,-4,2,8,-10]))
+print(threesum([-1,0,1,2,-1,-4]))
+print(threesums([-1,0,1,2,-1,-4]))
 
 # set -> -1, 0, 1, 2, -4
