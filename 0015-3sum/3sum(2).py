@@ -7,19 +7,17 @@ from collections import defaultdict
 
 
 def threesum(xs):
-    xs.sort()
-    
     index = defaultdict(int)
-    for i, v in enumerate(xs):
+    for i, v in enumerate(xs): # o(n)
         index[v] = i
 
-    res = set()
-    for (i, j) in combinations(range(len(xs)), 2):
+    res = []
+    for (i, j) in combinations(range(len(xs)), 2): #o(n^2)
         x, y, z = xs[i], xs[j], -(xs[i] + xs[j])
         if j < index[z]:
-            res.add((x, y, z))
+            res.append((x, y, z))
     
-    return res
+    return set([tuple(sorted(c)) for c in res])
 
 has_greater = lambda value, arr: arr and value < arr[-1]
 
