@@ -18,7 +18,7 @@ def closestCost(baseCosts, toppingCosts, target):
         
         cost = total
         for count in range(1, 3):
-            cost = closer(cost, calculate_cost(i+1, total + toppingCosts[i] * count))
+            cost = closer(cost, calculate_cost(i+1, total + toppingCosts[i] * count)) # calculate 함수 안에서 조합과 비교를 같이하는게 문제
         return cost
 
     res=float('inf')
@@ -28,8 +28,6 @@ def closestCost(baseCosts, toppingCosts, target):
     return res
 
 
-# 1. calculate_closest의 toppingCosts 참조 제거 -> every_costs
-# 2. product 활용
 def closestCost2(baseCosts, toppingCosts, target):
 
     def closer(a, b):
@@ -41,36 +39,19 @@ def closestCost2(baseCosts, toppingCosts, target):
                     abs_a: a,
                     abs_b: b
                 }
-                return val[min(abs_a, abs_b)]
-
-    # def calculate_closest(total, costs):
-    #     if not costs:
-    #         return total
-        
-    #     costs = [calculate_closest(total + count * costs[0], costs[1:]) for count in range(3)]
-    #     print(costs)
-    #     return costs
+                return val[min(abs_a, abs_b)]       
     
-    def every_costs(total, topping_costs):
-        return [reduce(calculate, enumerate(cb), total) for cb in product(range(3), repeat=len(topping_costs))]
-            
-        # if not costs:
-        #     return [total]
-        
-        # costss = [every_costs(total + count * costs[0], costs[1:]) for count in range(3)] # 3중 for문
-        # return costss[0] + costss[1] + costss[2]
-    
-    def calculate(total, topping):
-        idx, count = topping
+    def calculate(total, cb):
+        idx, count = cb
         return total + toppingCosts[idx] * count
-
 
     res = float('inf')
     for bc in baseCosts:
-        res = every_costs(bc, toppingCosts)
-        print(res)
-
-
+        for cb in product(range(3), repeat=len(toppingCosts)):
+            cost = reduce(calculate, enumerate(cb), bc)
+            res = closer(res, cost)
+    
+    return res
 
 
 
