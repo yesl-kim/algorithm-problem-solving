@@ -31,24 +31,18 @@ def closestCost(baseCosts, toppingCosts, target):
 def closestCost2(baseCosts, toppingCosts, target):
 
     def closer(a, b):
-            abs_a, abs_b = abs(target-a), abs(target-b)
-            if abs_a == abs_b:
-                return min(a, b)
-            else:
-                val = {
-                    abs_a: a,
-                    abs_b: b
-                }
-                return val[min(abs_a, abs_b)]       
-    
-    def calculate(total, cb):
-        idx, count = cb
-        return total + toppingCosts[idx] * count
+        abs_a, abs_b = abs(target-a), abs(target-b)
+        if abs_a < abs_b:
+            return a
+        elif abs_b < abs_a:
+            return b
+        else:
+            return min(a, b)       
 
     res = float('inf')
     for bc in baseCosts:
         for cb in product(range(3), repeat=len(toppingCosts)):
-            cost = reduce(calculate, enumerate(cb), bc)
+            cost = reduce(lambda cost, cb: cost + toppingCosts[cb[0]] * cb[1], enumerate(cb), bc)
             res = closer(res, cost)
     
     return res

@@ -21,6 +21,53 @@
     => 제너레이터 활용!
     => 제너레이터가 어렵다면, 제너레이터를 반환하는 내장 함수를 활용하는 것도 방법 (`product`)
 
+4.  **의미없는 변수명을 쓸 바엔 람다함수로 만들자**
+
+    ```py
+    def closestCost2(baseCosts, toppingCosts, target):
+
+    def closer(a, b):
+            abs_a, abs_b = abs(target-a), abs(target-b)
+            if abs_a == abs_b:
+                return min(a, b)
+            else:
+                val = {
+                    abs_a: a,
+                    abs_b: b
+                }
+                return val[min(abs_a, abs_b)]
+
+    def calculate(total, cb):
+        idx, count = cb
+        return total + toppingCosts[idx] * count
+
+    res = float('inf')
+    for bc in baseCosts:
+        for cb in product(range(3), repeat=len(toppingCosts)):
+            cost = reduce(calculate, enumerate(cb), bc)
+            res = closer(res, cost)
+
+    return res
+    ```
+
+    - calculate 는 이 함수 전체에 대한 의미이기도 하니, 의미없는 변수와 같다 (closestCost2 자체가 cost를 계산하는 것이니)
+    - 이런 함수는 차라리 람다로 만들어 의미없는 변수명 사용을 줄이자
+
+5.  별로인 트릭
+    ```py
+    def closer(a, b):
+             abs_a, abs_b = abs(target-a), abs(target-b)
+             if abs_a == abs_b:
+                 return min(a, b)
+             else:
+                 val = {
+                     abs_a: a,
+                     abs_b: b
+                 }
+                 return val[min(abs_a, abs_b)]
+    ```
+    - 직관적이지도, 코드가 전보다 짧아서 효율이 좋지도 않아서?
+
 ---
 
 참고
