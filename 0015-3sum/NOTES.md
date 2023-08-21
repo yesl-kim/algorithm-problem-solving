@@ -37,8 +37,88 @@ def threesum(xs):
     return set([tuple(sorted(c)) for c in res])
 ```
 
+한단계 더! 리팩토링
+
+1. occasions 자료구조를 만든다면?
+
+   ```py
+   def threesum(nums):
+    occasions = Counter(nums[2:])
+
+    res = []
+    for (i, j) in combinations(range(len(nums)-1), 2): # o(n^2)
+        x, y, z = nums[i], nums[j], -(nums[i] + nums[j])
+        occasions[x]-=1
+        occasions[y]-=1
+        if 0 < occasions[z]:
+            res.append((x, y, z))
+        occasions[x]+=1
+        occasions[y]+=1
+
+    return set([tuple(sorted(c)) for c in res])
+   ```
+
+   - occasions를 변경하는 것이 찜찜하다 -> 더 좋은 방법은 없을까?
+   - `pros`: occasions[x] -= 1 은 '사용한다'라는 의미를 명확하게 표현한다
+   - `cons`: occasions[x] += 1 원복을 위한 코드가 꼭 필요하며, 이것이 코드를 지저분하게 한다
+   - `alternate`: if int(x == z) + int(y == z) < occasions[z] 라고 표현하면 어떨까
+     - `pros`: occasions를 직접 변경하지 않는 장점이 있다
+     - `cons`: 하지만 확장성에 좋지 않다. 만일 다른 요구사항이 추가되면? 결국 한 줄로 표현할 수 없다 -> 수정범위가 더 커질 것이다
+   - `solution`: '사용 후 원복'하는 코드를 추상화하면 어떨까 -> with 구문 활용
+
+2. with 구문을 활용하여 추상화
+
+   ```py
+   class Occtools():
+    def __init__(self, arr):
+        self.data = Counter(arr)
+        self.actions = []
+
+    @property
+    def occasions(self):
+        return self.data
+
+
+    def __enter__(self):
+        print('enter')
+        return self
+
+
+    def use(self, *keys):
+        for key in keys:
+            self.data[key] -= 1
+            self.actions.append(key)
+
+
+    def __exit__(self, *args):
+            for x in self.actions:
+                self.data[x] += 1
+            self.actions = []
+
+    def threesum(nums):
+        occtools = Occtools(nums[2:])
+        occasions = occtools.occasions
+
+        res = []
+        for (i, j) in combinations(range(len(nums)-1), 2): # o(n^2)
+            with occtools:
+                x, y, z = nums[i], nums[j], -(nums[i] + nums[j])
+                occtools.use(x, y)
+                if 0 < occasions[z]:
+                    res.append((x, y, z))
+
+        return set([tuple(sorted(c)) for c in res])
+
+   ```
+
+   - occtools가 너무 많은 일을 한다
+
 이전 코드와 비교하여 좋은 점
 
 - 로직의 단계와 의도가 분명히 드러난다 -> 이해하기 쉽다
-  - 이전 코드는 hash가 무엇을 뜻하는지 알기 어렵다
-  - 조합의 유효성을 확인하는 코드와 조합의 중복을 피하는 코드가 섞여있어 이해하기 어렵다
+- 이전 코드는 hash가 무엇을 뜻하는지 알기 어렵다
+- 조합의 유효성을 확인하는 코드와 조합의 중복을 피하는 코드가 섞여있어 이해하기 어렵다
+
+```
+
+```
