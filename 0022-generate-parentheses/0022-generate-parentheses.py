@@ -14,16 +14,10 @@ class Solution:
     
     
     def generateParenthesis(self, n: int) -> List[str]:
-        parentheses = ['(', ')']
-        res = []
-        
         def generate(L = 0, s = ''):
             if L == n*2:
-                if self.isValid(s):
-                    res.append(s)
+                return [s] if self.isValid(s) else []
             else:
-                for i in range(2):
-                    generate(L+1, s+parentheses[i])
-        
-        generate()
-        return res
+                return generate(L+1, s+'(') + generate(L+1, s+')')
+
+        return generate()
