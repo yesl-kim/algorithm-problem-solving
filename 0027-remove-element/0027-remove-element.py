@@ -14,6 +14,6 @@ class Solution:
 
         while left < right:
             nums[left], nums[right] = nums[right], nums[left]
-            left, right = self.move(nums, 0, len(nums) - 1, val)
+            left, right = self.move(nums, left, right, val)
         
         return left
