@@ -3,11 +3,11 @@ from collections import deque
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         # prerequisites[i] = [a, b] => graph[b][a] (b -> a)
-        graph = [[False] * numCourses for _ in range(numCourses)]
+        graph = [[] for _ in range(numCourses)]
         degrees = [0] * numCourses
         
         for a, b in prerequisites:
-            graph[b][a] = True
+            graph[b].append(a)
             degrees[a] += 1
         
         courses = deque()
@@ -15,13 +15,15 @@ class Solution:
             if d == 0:
                 courses.append(i)
         
+        cnt = 0
         while courses:
             c = courses.popleft()
-            for next_course, degree in enumerate(graph[c]):
-                if degree:
-                    degrees[next_course] -= 1
-                    if degrees[next_course] == 0:
-                        courses.append(next_course)
+            cnt += 1
+            
+            for next_course in graph[c]:
+                degrees[next_course] -= 1
+                if degrees[next_course] == 0:
+                    courses.append(next_course)
         
-        return all([d == 0 for d in degrees])
+        return cnt == numCourses
             
