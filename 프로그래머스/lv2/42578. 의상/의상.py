@@ -1,11 +1,8 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 from functools import reduce
 from operator import mul
 
 def solution(clothes):
-    hash = defaultdict(list)
-    for name, kind in clothes:
-        hash[kind].append(name)
-    
-    return reduce(mul, [len(x) + 1 for x in hash.values()], 1) - 1
+    clothes = Counter([kind for _, kind in clothes])
+    return reduce(mul, [x + 1 for x in clothes.values()], 1) - 1
             
