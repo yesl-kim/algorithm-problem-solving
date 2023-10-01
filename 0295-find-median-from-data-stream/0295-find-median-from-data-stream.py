@@ -19,7 +19,7 @@ class MedianFinder:
     def findMedian(self) -> float:
         i = self.middle
         if self.is_even_size():
-            return sum(self.arr[i:i+2]) / 2
+            return (self.arr[i] + self.arr[i+1]) / 2
         else:
             return self.arr[i]
         
