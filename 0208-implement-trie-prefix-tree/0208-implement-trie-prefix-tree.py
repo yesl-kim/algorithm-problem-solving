@@ -1,8 +1,7 @@
 class Node:
-    def __init__(self, val = None):
-        self.val = val
+    def __init__(self):
         self.next = {}
-        self.word = None
+        self.isEnd = False
 
 class Trie:
     def __init__(self):
@@ -12,9 +11,9 @@ class Trie:
         node = self.root
         for char in word:
             if not char in node.next:
-                node.next[char] = Node(char)
+                node.next[char] = Node()
             node = node.next[char]
-        node.word = word
+        node.isEnd = True
 
         
     def search(self, word: str) -> bool:
@@ -23,7 +22,7 @@ class Trie:
             if not char in node.next:
                 return False
             node = node.next[char]
-        return node.word == word
+        return node.isEnd
         
 
     def startsWith(self, prefix: str) -> bool:
