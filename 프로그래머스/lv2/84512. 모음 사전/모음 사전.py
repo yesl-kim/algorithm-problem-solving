@@ -1,17 +1,8 @@
-from itertools import permutations
+from itertools import product
+from bisect import bisect_right
+
+words = sorted(("".join(comb) for i in range(1,6) for comb in product('AEIOU', repeat=i)))
 
 def solution(word):
-    words = []
-    def combine(word): 
-        if len(word) >= 5:
-            return
-        
-        for char in 'AEIOU':
-            w = word + char
-            words.append(w)
-            combine(w)
-    
-    combine('')
-    words.sort()
-    return words.index(word) + 1
+    return bisect_right(words, word)
         
