@@ -5,6 +5,8 @@ def isPrime(num):
         return False
     
     for i in range(2, num):
+        if i * i > num:
+            break
         if num % i == 0:
             return False
     return True
