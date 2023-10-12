@@ -12,17 +12,12 @@ class Solution:
             
             return max(depth(node.left), depth(node.right)) + 1
         
-        max_leng = 0
         def diameter(node):
-            nonlocal max_leng
             if not node:
-                return
+                return 0
             
             leng = depth(node.left) + depth(node.right) + 2
-            max_leng = max(max_leng, leng)
-            diameter(node.left)
-            diameter(node.right)
+            return max(leng, diameter(node.left), diameter(node.right))
         
-        diameter(root)
-        return max_leng
+        return diameter(root)
             
