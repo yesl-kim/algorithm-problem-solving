@@ -1,6 +1,6 @@
 class Solution:
     def isAlienSorted(self, words: List[str], order: str) -> bool:
-        order = {char: i+1 for i, char in enumerate(order)}
+        order = {char: i for i, char in enumerate(order)}
         
         for ws in zip(words, words[1:]):
             for c1, c2 in zip(*ws):
