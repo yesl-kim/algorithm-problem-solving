@@ -3,12 +3,15 @@ from collections import defaultdict, Counter
 class Solution:
     def maxFreq(self, s: str, maxLetters: int, minSize: int, maxSize: int) -> int:
         subs_cnt = defaultdict(int)
-        size = len(s)
-        for i in range(size - minSize + 1):
-            for e in range(i + minSize , min(i + maxSize + 1, len(s) + 1)):
-                x = s[i:e]
-                if len(Counter(x)) <= maxLetters:
+        
+        for i in range(len(s)):
+            for size in range(minSize, maxSize + 1):
+                if len(s) < i + size:
+                    break
+                x = s[i: i + size]
+                if len(set(x)) <= maxLetters:
                     subs_cnt[x] += 1
+        
         return max(subs_cnt.values()) if subs_cnt else 0
 
 
