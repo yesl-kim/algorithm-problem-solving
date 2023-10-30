@@ -3,7 +3,7 @@ from collections import deque
 def solution(maps):
     q = deque()
     h, w = len(maps), len(maps[0])
-    q.append((0,0))
+    q.append((0, 0))
 
     def path(x, y):
         for dx, dy in ((0,1), (1,0), (0,-1), (-1,0)):
