@@ -16,11 +16,9 @@ class Solution:
                 adj_flowers_cnt.append(e - s)
                 s = e + 1
 
-            if sum(adj_flowers_cnt) < m * k:
-                return False
-            
-            cnt = sum(cnt // k for cnt in adj_flowers_cnt)
-            return cnt >= m
+            flowers = sum(adj_flowers_cnt)
+            bouquets = sum(cnt // k for cnt in adj_flowers_cnt)
+            return flowers >= m * k and bouquets >= m
             
         # 0 < x <= max(bloomDay)
         lo, hi = 1, max(bloomDay)
