@@ -6,15 +6,8 @@
 #         self.right = right
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        q = deque([(1, root)]) # depth, node
-        max_depth = 0
-        
-        while q:
-            depth, node = q.popleft()
+        def _max_depth(node, depth = 0):
             if not node:
-                continue
-            max_depth = max(max_depth, depth)
-            q.append((depth + 1, node.left))
-            q.append((depth + 1, node.right))
-        
-        return max_depth
+                return depth
+            return max(_max_depth(node.left, depth + 1), _max_depth(node.right, depth + 1))
+        return _max_depth(root)
