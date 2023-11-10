@@ -1,1 +1,1 @@
-​
+- [슬라이딩 윈도우 우아하게 하는 방법](https://stackoverflow.com/questions/66668405/python-sliding-windows-of-a-list)
