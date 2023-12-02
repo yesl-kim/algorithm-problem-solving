@@ -1,5 +1,4 @@
-import sys
-sys.setrecursionlimit(2 * (10**9))
+from functools import lru_cache
 
 def memoize(fn):
     cache = {}
@@ -13,7 +12,7 @@ def memoize(fn):
 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        @memoize
+        @lru_cache
         def paths(x, y):
             if not (0 <= x < m) or not (0 <= y < n):
                 return 0
