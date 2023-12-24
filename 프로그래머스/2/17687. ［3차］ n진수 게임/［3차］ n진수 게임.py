@@ -6,13 +6,15 @@ def solution(n, t, m, p):
         return convert(q, base) + T[r] if q else T[r]
         
     words = []
-    dic = {'10': 'A', '11': 'B', '12': 'C', '13': 'D', '14': 'E', '15': 'F'}
     for i in range(10**7):
-        x = convert(i, n)
-        ws = [dic.get(x, x)] if i < n else list(x)
-        words += ws
-        if len(words) >= m * t + p:
+        words += list(convert(i, n))
+        if len(words) >= m * t:
             break
+    
+    # i = 1
+    # while len(words) < m * t:
+    #     words += list(convert(i, n))
+    #     i += 1
     
     
     speak = words[p - 1::m][:t]
