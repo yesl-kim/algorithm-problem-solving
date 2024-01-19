@@ -1,20 +1,10 @@
 def solution(n, arr1, arr2):
-    def decrypt(num):
-        def to_binary_str(num):
-            if num < 2:
-                return str(num)
-            
-            share, rest = divmod(num, 2)
-            return to_binary_str(share) + str(rest)
+    bi = lambda x: format(x, 'b').zfill(n)
+    map1, map2 = map(bi, arr1), map(bi, arr2)
+    
+    decrypt = lambda a, b: "#" if any(x == '1' for x in (a, b)) else " "
+    decrypted = ["".join(decrypt(c1, c2) 
+                         for c1, c2 in zip(row1, row2)) 
+                 for row1, row2 in zip(map1, map2)]
+    return decrypted
         
-        return to_binary_str(num).zfill(n)
-    
-    def overlap(str1, str2):
-        row = ''
-        for i in range(n):
-            row += ' ' if str1[i] == '0' and str2[i] == '0' else '#'
-        return row
-    
-    return [overlap(decrypt(a), decrypt(b)) for a, b in zip(arr1, arr2)]
-            
-    
