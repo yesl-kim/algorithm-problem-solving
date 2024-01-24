@@ -1,21 +1,27 @@
 def solution(msg):
-    dic = {chr(i + 64): i for i in range(1, 27)}
-    def find_prefix(s):
-        if s in dic:
-            return s
-        for i in range(1, len(s) + 1):
-            prefix = s[:i]
-            if prefix not in dic:
-                return prefix[:-1]
+    init_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    d = {char: i + 1 for i, char in enumerate(init_chars)}
     
-    def zzip(s):
-        prefix = find_prefix(s)
-        index = dic[prefix]
-        s = s[len(prefix):]
+    def find_prefix(x):
+        for prefix in sorted(d, key=len, reverse=True):
+            if x.startswith(prefix):
+                return prefix
+        return None
+    
+    def zip(s):
         if not s:
-            return [index]
+            return []
         
-        dic[prefix + s[0]] = len(dic) + 1
-        return [index] + zzip(s)
+        prefix = find_prefix(s)
+        if not prefix:
+            return []
+        
+        idx = d[prefix]
+        ns = s[len(prefix):]
+        if ns:
+            new_prefix = prefix + ns[0]
+            d[new_prefix] = len(d) + 1
+            
+        return [idx] + zip(ns)
     
-    return zzip(msg)
+    return zip(msg)
