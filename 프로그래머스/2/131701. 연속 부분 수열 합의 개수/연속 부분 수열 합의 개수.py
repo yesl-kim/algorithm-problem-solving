@@ -1,6 +1,3 @@
-def circular_window(arr, n):
-    pass
-
 def solution(elements):
     expanded = elements * 2
     res = set()
